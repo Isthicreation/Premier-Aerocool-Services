@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Our Projects & Case Studies | Premier Aerocool Services</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+
+    <style>
+        /* --- GLOBAL STYLES (Matching Home Page) --- */
+        :root {
+            --primary-blue: #0056b3;
+            --accent-cyan: #00a8e8;
+            --action-green: #28a745;
+            --dark-text: #333;
+            --light-bg: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--dark-text);
+            padding-bottom: 70px;
+        }
+        a { text-decoration: none; color: inherit; }
+        
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background: var(--primary-blue);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container { 
+            display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; 
+        }
+        .logo { 
+            font-size: 1.5rem; font-weight: bold; color: white;
+            display: flex; align-items: center; 
+        }
+        .logo span { color: var(--accent-cyan); }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { 
+            font-weight: 600; 
+            transition: color 0.3s, background-color 0.3s;
+            color: #f4f7f6;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .nav-links a:hover { 
+            color: white; 
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-links .active {
+            color: var(--accent-cyan);
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+
+        /* --- CONTENT STYLES --- */
+        .page-hero {
+            background: linear-gradient(rgba(0, 86, 179, 0.8), rgba(0, 50, 100, 0.8)), url('https://images.unsplash.com/photo-1570777176587-c1d09e5352c3?auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .page-hero h1 { font-size: 3rem; margin: 0; text-transform: uppercase; }
+        .page-hero p { font-size: 1.2rem; margin-top: 10px; }
+        .section { padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; color: var(--primary-blue); font-size: 2.5rem; margin-bottom: 40px; }
+        
+        /* --- PROJECT GALLERY GRID --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding-top: 20px;
+        }
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .project-image-container { height: 250px; overflow: hidden; cursor: pointer; }
+        .project-image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .project-card:hover img { transform: scale(1.05); }
+        .project-info { padding: 20px; }
+        .project-info h3 { color: var(--primary-blue); margin-top: 0; margin-bottom: 10px; }
+        .project-info strong { color: var(--action-green); }
+
+        /* NEW: Styles for structured project specifications */
+        .project-specs {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-bg);
+        }
+        .project-specs ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .project-specs li {
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #eee;
+        }
+        .project-specs li:last-child { border-bottom: none; }
+        .spec-label { font-weight: 500; color: #555; }
+        .spec-value { font-weight: bold; color: var(--primary-blue); }
+
+        /* --- CSS-ONLY LIGHTBOX --- */
+        .lightbox { display: none; position: fixed; z-index: 5000; padding-top: 60px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); }
+        .lightbox:target { display: block; } 
+        .lightbox-content { margin: auto; display: block; width: 90%; max-width: 1000px; max-height: 90vh; object-fit: contain; }
+        .close-button { position: absolute; top: 15px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; transition: 0.3s; z-index: 5001; }
+        .close-button:hover, .close-button:focus { color: var(--accent-cyan); text-decoration: none; cursor: pointer; }
+
+        /* --- FOOTER & STICKY BAR --- */
+        footer { background: #1c1c1c; color: #f4f4f4; padding: 50px 20px; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 1200px; margin: 0 auto; gap: 30px; text-align: left; }
+        .footer-box h4 { border-bottom: 3px solid var(--accent-cyan); padding-bottom: 10px; margin-bottom: 25px; color: white; font-size: 1.2rem; }
+        .footer-box p, .footer-box a { line-height: 1.8; color: #ccc; }
+        .footer-copy { margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; font-size: 0.9rem; }
+        .sticky-contact-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #111; box-shadow: 0 -2px 10px rgba(0,0,0,0.4); z-index: 2000; display: flex; justify-content: space-around; align-items: center; padding: 5px 0; }
+        .sticky-contact-link { flex-grow: 1; text-align: center; padding: 10px 0; font-size: 0.9rem; font-weight: bold; color: white; transition: background-color 0.3s, transform 0.2s; }
+        .whatsapp-link { background-color: #25d366; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">PREMIER <span>AEROCOOL</span></div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="#" class="active">Projects</a> <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <h1>Our Successful Projects</h1>
+        <p>Showcasing our expertise in complex commercial and central cooling installations across KSA.</p>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Case Studies & Completed Works</h2>
+        
+        <div class="gallery-grid">
+            
+            <div class="project-card">
+                <a href="#img1">
+                    <div class="project-image-container">
+                        <img src="chiller.png" alt="Chiller System Installation">
+                    </div>
+                </a>
+                <div class="project-info">
+                    <h3>Major Chiller Plant Installation</h3>
+                    <p><strong>Client:</strong> Industrial Complex (Jeddah)</p>
+                    <p>Full installation, commissioning, and validation of the primary chiller plant for a large manufacturing facility.</p>
+                    <div class="project-specs">
+                        <ul>
+                            <li><span class="spec-label">Scope:</span> <span class="spec-value">Design & Install (EPC)</span></li>
+                            <li><span class="spec-label">Capacity:</span> <span class="spec-value">800 TR (Tons of Refrigeration)</span></li>
+                            <li><span class="spec-label">Completion:</span> <span class="spec-value">On Schedule (6 Months)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <a href="#img2">
+                    <div class="project-image-container">
+                        <img src="Duct works.png" alt="Ducting and HVAC System">
+                    </div>
+                </a>
+                <div class="project-info">
+                    <h3>Commercial Duct Works & Package Units</h3>
+                    <p><strong>Client:</strong> Logistics Terminal (Riyadh)</p>
+                    <p>Fabrication and installation of customized air ducting and package unit systems optimized for warehouse conditions.</p>
+                    <div class="project-specs">
+                         <ul>
+                            <li><span class="spec-label">Service:</span> <span class="spec-value">Duct Fabrication & Install</span></li>
+                            <li><span class="spec-label">Area Covered:</span> <span class="spec-value">3,500 Sq. Meters</span></li>
+                            <li><span class="spec-label">Outcome:</span> <span class="spec-value">Enhanced Airflow & Quality</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <a href="#img3">
+                    <div class="project-image-container">
+                        <img src="amc-main.jpg" alt="Ongoing Maintenance Work">
+                    </div>
+                </a>
+                <div class="project-info">
+                    <h3>Comprehensive Maintenance Contract (AMC)</h3>
+                    <p><strong>Client:</strong> Major Shopping Mall (Makkah)</p>
+                    <p>Ongoing preventive and corrective maintenance services under a comprehensive AMC for the entire central cooling infrastructure.</p>
+                    <div class="project-specs">
+                         <ul>
+                            <li><span class="spec-label">Contract Type:</span> <span class="spec-value">2-Year Full Service</span></li>
+                            <li><span class="spec-label">Scope:</span> <span class="spec-value">Chillers, AHUs, FCUs, Pumps</span></li>
+                            <li><span class="spec-label">KPI:</span> <span class="spec-value">99% Uptime Guarantee</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="project-card">
+                <a href="#img4">
+                    <div class="project-image-container">
+                        <img src="installation of packages.png" alt="Package Unit Installation">
+                    </div>
+                </a>
+                <div class="project-info">
+                    <h3>Commercial Package Unit Installation</h3>
+                    <p><strong>Client:</strong> International School (Jeddah)</p>
+                    <p>Installation of multiple high-efficiency Package Units to handle the cooling load for large classrooms and administrative buildings.</p>
+                    <div class="project-specs">
+                         <ul>
+                            <li><span class="spec-label">Units Installed:</span> <span class="spec-value">12 x 20 TR Units</span></li>
+                            <li><span class="spec-label">System Type:</span> <span class="spec-value">Rooftop Package Units</span></li>
+                            <li><span class="spec-label">Focus:</span> <span class="spec-value">Air Quality & Noise Reduction</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <a href="#img5">
+                    <div class="project-image-container">
+                        <img src="download345.png" alt="Hospital HVAC System">
+                    </div>
+                </a>
+                <div class="project-info">
+                    <h3>Hospital HVAC Upgrades</h3>
+                    <p><strong>Client:</strong> Specialized Medical Center (Dammam)</p>
+                    <p>System upgrades focused on critical cooling areas, including operating theaters and pharmaceutical storage units.</p>
+                    <div class="project-specs">
+                         <ul>
+                            <li><span class="spec-label">Scope:</span> <span class="spec-value">Retrofitting & Optimization</span></li>
+                            <li><span class="spec-label">Priority:</span> <span class="spec-value">Redundancy & Filtration</span></li>
+                            <li><span class="spec-label">Challenge:</span> <span class="spec-value">Zero Downtime Execution</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px;">
+             <a href="contact.html?subject=Project Inquiry" style="background-color: var(--action-green); color: white; padding: 15px 30px; border-radius: 5px; font-weight: bold; font-size: 1.1rem; display: inline-block; transition: background-color 0.3s;">Discuss Your Next Project</a>
+        </div>
+        
+    </section>
+
+    <footer id="contact-info">
+        <div class="footer-grid">
+            <div class="footer-box">
+                <h4>Contact Details</h4>
+                <p><strong>General Manager:</strong> Khalid Al Rashedi</p>
+                <p><strong>Primary Phone:</strong> <a href="tel:0561886137" style="color: #ccc;">0561886137</a></p>
+                <p><strong>Support Mobile:</strong> <a href="tel:0543601122" style="color: #ccc;">0543601122</a></p>
+                <p><strong>Further Contact:</strong> <a href="tel:0560255077" style="color: #ccc;">0560255077</a></p>
+                <p><strong>Email:</strong> <a href="mailto:admin@premieraerocoolservices.com" style="color: #ccc;">admin@premieraerocoolservices.com</a></p>
+            </div>
+            <div class="footer-box">
+                <h4>Operational Location</h4>
+                <p>Muhammed Saeed Naset Branch,</p>
+                <p>Al Nuzhah Dist. 7590,</p>
+                <p>Jeddah, KSA</p>
+            </div>
+            <div class="footer-box">
+                <h4>Quick Links</h4>
+                <a href="about.html" style="color: #ccc; display: block;">About Premier Aerocool</a>
+                <a href="services.html" style="color: #ccc; display: block;">Full Service List</a>
+                <a href="projects.html" style="color: #ccc; display: block;">View Case Studies</a>
+                <a href="contact.html" style="color: #ccc; display: block;">Request A Quote</a>
+            </div>
+        </div>
+        <div class="footer-copy">
+            &copy; 2025 Premier Aerocool Services. All Rights Reserved.
+        </div>
+    </footer>
+    
+    <div class="sticky-contact-bar">
+        <a href="tel:0561886137" class="sticky-contact-link">
+            <span>📞</span> Call Us
+        </a>
+        <a href="https://wa.me/966561886137" target="_blank" class="sticky-contact-link whatsapp-link">
+            <span>💬</span> WhatsApp
+        </a>
+        <a href="mailto:admin@premieraerocoolservices.com" class="sticky-contact-link">
+            <span>📧</span> Email
+        </a>
+    </div>
+
+    <div id="img1" class="lightbox">
+        <a href="#" class="close-button">&times;</a>
+        <img class="lightbox-content" src="IMG-20251031-WA0049.jpg" alt="Chiller System Installation">
+    </div>
+
+    <div id="img2" class="lightbox">
+        <a href="#" class="close-button">&times;</a>
+        <img class="lightbox-content" src="Screenshot (358).png" alt="Ducting and HVAC System">
+    </div>
+
+    <div id="img3" class="lightbox">
+        <a href="#" class="close-button">&times;</a>
+        <img class="lightbox-content" src="https://images.unsplash.com/photo-1628108529283-774b711e5444?auto=format&fit=crop&w=800&q=80" alt="Ongoing Maintenance Work">
+    </div>
+    
+    <div id="img4" class="lightbox">
+        <a href="#" class="close-button">&times;</a>
+        <img class="lightbox-content" src="https://images.unsplash.com/photo-1542848906-81a17282b95c?auto=format&fit=crop&w=800&q=80" alt="Package Unit Installation">
+    </div>
+    
+    <div id="img5" class="lightbox">
+        <a href="#" class="close-button">&times;</a>
+        <img class="lightbox-content" src="https://images.unsplash.com/photo-1581452441999-ed5329388145?auto=format&fit=crop&w=800&q=80" alt="Hospital HVAC System">
+    </div>
+
+</body>
+</html>
