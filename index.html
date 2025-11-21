@@ -43,7 +43,7 @@
             z-index: 1000;
         }
         .top-bar { background: var(--primary-blue); color: white; text-align: center; padding: 5px 0; font-size: 0.9rem; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-blue); display: flex; align-items: center; }
         .logo span { color: var(--accent-cyan); }
         .nav-links { display: flex; gap: 20px; }
@@ -240,13 +240,17 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 1.1rem; }
-            .nav-links { display: none; }
+            .nav-links { display: flex; flex-basis: 100%; justify-content: center; gap: 10px; }
+            .nav-container .logo { flex-basis: 100%; text-align: center; }
+            .nav-container .cta-button { flex-basis: 100%; max-width: 320px; margin: 0 auto; }
             .about-grid { grid-template-columns: 1fr; }
             .cta-banner { justify-content: center; text-align: center; }
         }
     </style>
 </head>
 <body>
+
+    <link rel="stylesheet" href="styles.css">
 
     <div class="top-bar">
         Stay Cool All Year Round With Our Professional Solutions

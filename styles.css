@@ -1,0 +1,61 @@
+/* Responsive overrides and header stacking for small screens */
+:root{
+    --header-height: auto;
+}
+/* Ensure header content can wrap on narrow screens */
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Make nav links wrap and center on mobile */
+.nav-links{
+    display: flex !important;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ensure CTA doesn't overflow and appears below nav on small screens */
+.nav-container .cta-button{
+    flex-basis: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Smaller hero padding on phones/tablets */
+.hero, .page-hero{ padding: 60px 16px; }
+.hero h1 { font-size: 2.2rem; }
+.hero p { font-size: 1rem; }
+
+/* Ensure cards and grids adapt nicely */
+.about-grid, .mv-grid, .projects-grid, .services-grid, .parts-grid, .gallery-grid, .client-logo-grid{
+    width: 100%;
+}
+
+/* Prevent sticky contact bar from covering inputs on very small screens */
+@media (max-width: 420px){
+    body{ padding-bottom: 120px; }
+    .sticky-contact-bar{ padding: 8px 0; font-size: 0.85rem; }
+}
+
+/* Fine tune nav spacing at medium widths */
+@media (max-width: 992px){
+    .nav-links{ gap: 10px; }
+}
+
+/* Small tweaks for larger phones and tablets */
+@media (max-width: 768px){
+    .hero h1{ font-size: 1.9rem; }
+    .page-hero h1{ font-size: 1.9rem; }
+}
+
+/* Keep images responsive */
+img{ max-width:100%; height:auto; display:block; }
